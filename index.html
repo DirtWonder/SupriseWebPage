@@ -5,58 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Sweet Chels-A-Rita</title>
     <style>
-        /* Set the background color */
         body {
             background-color: #ffebf0; /* Light pink background */
             font-family: Arial, sans-serif;
             text-align: center;
-            padding: 50px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents scrollbars from showing when hearts fall */
         }
 
-        /* Title text style */
         h1 {
             color: #ff4c8b; /* Deep pink color */
             font-size: 60px;
-            margin-bottom: 20px;
+            margin-top: 50px;
         }
 
-        /* Heart styling */
-        .hearts {
-            font-size: 50px;
-            color: red;
-        }
-
-        /* Message text */
         p {
             color: #2e8b57; /* Green color */
             font-size: 30px;
             margin-top: 30px;
         }
 
-        /* Add some spacing around the page */
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            color: red;
+            animation: fall 5s infinite linear;
+            cursor: pointer;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -50px;
+                left: calc(100% * random(1));
+            }
+            100% {
+                top: 100%;
+                left: calc(100% * random(1));
+            }
+        }
+
+        .burst {
+            font-size: 50px;
+            color: #ff4c8b;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pop 1s ease-out forwards;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Title: My Sweet Chels-A-Rita -->
-        <h1>My Sweet Chels-A-Rita</h1>
-        
-        <!-- Heart symbols -->
-        <div class="hearts">
-            ❤️❤️❤️
-        </div>
-        
-        <!-- I love you message -->
-        <p>I love you!</p>
-    </div>
+    <h1>My Sweet Chels-A-Rita</h1>
+    <p>I love you!</p>
+
+    <div class="heart" onclick="burst(this)">❤️</div>
+
+    <script>
+        // JavaScript to make hearts fall and burst
+        function createFallingHearts() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = `${Math.random() * window.innerWidth}px`; // Random horizontal position
+            heart.style.animationDuration = `${Math.random() * 3 + 2}s`; // Random speed for falling
+            document.body.appendChild(heart);
+
+            // Remove the heart once it finishes falling
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Function to handle the heart "burst" on click
+        function burst(heartElement) {
+            const burstElement = document.createElement("div");
+            burstElement.classList.add("burst");
+            burstElement.innerHTML = "I Love You!";
+            document.body.appendChild(burstElement);
+
+            // Remove the burst element after the animation is done
+            setTimeout(() => {
+                burstElement.remove();
+            }, 1000);
+
+            // Remove clicked heart
+            heartElement.remove();
+        }
+
+        // Create falling hearts every 0.5 seconds
+        setInterval(createFallingHearts, 500);
+    </script>
 
 </body>
 </html>
