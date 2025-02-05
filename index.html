@@ -28,9 +28,9 @@
 
         .heart {
             position: absolute;
-            font-size: 30px;
+            font-size: 90px; /* Increase heart size by 3x */
             color: red;
-            animation: fall 5s infinite linear;
+            animation: fall 10s infinite linear; /* Slow down the falling speed */
             cursor: pointer;
         }
 
@@ -72,8 +72,6 @@
     <h1>My Sweet Chels-A-Rita</h1>
     <p>I love you!</p>
 
-    <div class="heart" onclick="burst(this)">❤️</div>
-
     <script>
         // JavaScript to make hearts fall and burst
         function createFallingHearts() {
@@ -81,7 +79,10 @@
             heart.classList.add("heart");
             heart.innerHTML = "❤️";
             heart.style.left = `${Math.random() * window.innerWidth}px`; // Random horizontal position
-            heart.style.animationDuration = `${Math.random() * 3 + 2}s`; // Random speed for falling
+            heart.style.animationDuration = `${Math.random() * 5 + 5}s`; // Randomize the falling speed (5 to 10 seconds)
+            heart.onclick = function() {
+                burst(heart); // Burst effect when clicked
+            };
             document.body.appendChild(heart);
 
             // Remove the heart once it finishes falling
@@ -106,8 +107,8 @@
             heartElement.remove();
         }
 
-        // Create falling hearts every 0.5 seconds
-        setInterval(createFallingHearts, 500);
+        // Create falling hearts every 1 second
+        setInterval(createFallingHearts, 1000);
     </script>
 
 </body>
