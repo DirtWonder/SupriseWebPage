@@ -6,31 +6,31 @@
     <title>My Sweet Chels-A-Rita</title>
     <style>
         body {
-            background-color: #ffebf0; /* Light pink background */
+            background-color: #ffebf0;
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevents scrollbars from showing when hearts fall */
+            overflow: hidden;
         }
 
         h1 {
-            color: #ff4c8b; /* Deep pink color */
+            color: #ff4c8b;
             font-size: 60px;
             margin-top: 50px;
         }
 
         p {
-            color: #2e8b57; /* Green color */
+            color: #2e8b57;
             font-size: 30px;
             margin-top: 30px;
         }
 
         .heart {
             position: absolute;
-            font-size: 90px; /* Increase heart size by 3x */
+            font-size: 90px;
             color: red;
-            animation: fall 10s infinite linear; /* Slow down the falling speed */
+            animation: fall 10s infinite linear;
             cursor: pointer;
         }
 
@@ -65,27 +65,58 @@
                 opacity: 0;
             }
         }
+
+        .counter {
+            font-size: 24px;
+            color: #ff4c8b;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
     <h1>My Sweet Chels-A-Rita</h1>
-    <p>I love you!</p>
+    <p id="greeting"></p>
+
+    <div class="counter">
+        Hearts Clicked: <span id="heartCount">0</span>
+    </div>
 
     <script>
+        // Display a greeting based on the time of day
+        function displayGreeting() {
+            const greetingElement = document.getElementById("greeting");
+            const currentHour = new Date().getHours();
+            let greetingMessage = "";
+
+            if (currentHour >= 5 && currentHour < 12) {
+                greetingMessage = "Good Morning, Sweetheart!";
+            } else if (currentHour >= 12 && currentHour < 18) {
+                greetingMessage = "Good Afternoon, Love!";
+            } else {
+                greetingMessage = "Good Evening, My Love!";
+            }
+
+            greetingElement.textContent = greetingMessage;
+        }
+
+        displayGreeting(); // Call the function to set the greeting
+
+        let heartClickCount = 0; // Initialize heart click count
+
         // JavaScript to make hearts fall and burst
         function createFallingHearts() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
             heart.innerHTML = "❤️";
-            heart.style.left = `${Math.random() * window.innerWidth}px`; // Random horizontal position
-            heart.style.animationDuration = `${Math.random() * 5 + 5}s`; // Randomize the falling speed (5 to 10 seconds)
+            heart.style.left = `${Math.random() * window.innerWidth}px`;
+            heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
             heart.onclick = function() {
                 burst(heart); // Burst effect when clicked
+                updateHeartCount(); // Update heart count
             };
             document.body.appendChild(heart);
 
-            // Remove the heart once it finishes falling
             heart.addEventListener('animationend', () => {
                 heart.remove();
             });
@@ -98,13 +129,17 @@
             burstElement.innerHTML = "I Love You!";
             document.body.appendChild(burstElement);
 
-            // Remove the burst element after the animation is done
             setTimeout(() => {
                 burstElement.remove();
             }, 1000);
 
-            // Remove clicked heart
             heartElement.remove();
+        }
+
+        // Update the heart counter
+        function updateHeartCount() {
+            heartClickCount++;
+            document.getElementById("heartCount").textContent = heartClickCount;
         }
 
         // Create falling hearts every 1 second
